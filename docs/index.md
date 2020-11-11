@@ -1,34 +1,40 @@
-# Documentation of movie consumption
+# Projects with the TTGO T-Display
 
-Most of us watch a lot of movies. Concepts and key lines are used for cultural reference. Many of my friends refer to movies quite often, so I decided to review my [on consumption](https://hofkoh.de/2014/10/filmliste/). Starting in 2013 I recorded every movie I watched. Published [October 2014](https://hofkoh.de/2015/06/medienkonsum-die-zweite/). For some movies I could remember to have seen them in the cinema. This is a graph of recent movies according to their release year and the year I watched them:
+Installation and power measurements are found at the bottom of this document.
 
-![movies 2020](movies2020.png)
+## MicroPython
 
-Since I took a mark if I watched a movie, the database goes back to 1921 with more than 4500 movies. As of now I watched 1335 of them. But rarely a new movie from long ago makes it to the list. Or if it does, I've already seen it and it doesn't show up. We're just watching the classics ...
+Some example programs:
 
-![45 year graph](movies1975-2020.png)
+- Mandelbrot
+- green terminal
+- prime numbers
 
-## Purpose of this repository
+## Arduino C
 
-As with many data collections it started out as an excel worksheet. Over time the demand on the data extends the capabilties of a spreadsheet document. I want to convert it to a .csv data file and then start to analyse and extend in python on kaggle or colaboratory with a jupyter notebook. Goals:
+Examples here are:
 
-- Find the associated IMDB number for this movie for future reference.
-- Add a recent number of global revenue from boxofficemojo.
-- Indicate the original language of the movie.
+- [Starfield simulation](https://github.com/kreier/t-display/tree/main/arduino/TFT_Starfield)
+- Analog readings
+- 
 
-The last point came to my attention only in 2019 and 2020 when rather unknown movies made it into the top100 grossing movies of that year. Turns out that the movie market in China has grown in the years since I started this project in 2013 that their domestic market was strong enough to compete with Hollywood.
+## Installation of Arduino
 
-BTW: I included some german movies that were not really recognized somewhere else in the world.
+You need the following 5 steps to be able to program your T-Display with your Laptop/PC.
 
-## Progress in 8 years
+## Installation of MicroPython
 
-Since I started this project in 2013 I collected a lot of data on my movie culture. See how it evolved over a period of 8 years:
+Follow these 4 steps for MicroPython
 
-![Movies watched in 2013](movies2013.png)
-![Movies watched in 2013](movies2014.png)
-![Movies watched in 2014](movies2015.png)
-![Movies watched in 2015](movies2016.png)
-![Movies watched in 2016](movies2017.png)
-![Movies watched in 2017](movies2018.png)
-![Movies watched in 2018](movies2019.png)
-![Movies watched in 2020](movies2020.png)
+## Power consumption
+
+As [measured in April 2020](https://github.com/kreier/solarmeter/blob/master/README.md#power-consumption-t-display) the board needs 68 mA for running. With a battery of 1000 mAh you can use it for 9 hours.
+
+Further measurement has been conducted in November 2020. The results.
+
+You can directly measure the voltage of the LiPo battery on Pin 34. This can be seen in the [provided schematics from TTGO for the T-Display](TTGO_T-Display_schematics.pdf):
+
+<img src="bat_esp32.png" width="65%" align="right">
+<img src="bat_divider.png" width="25%">
+
+Moving on ...
