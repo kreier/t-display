@@ -37,4 +37,6 @@ You can directly measure the voltage of the LiPo battery on Pin 34. This can be 
 <img src="bat_esp32.png" width="65%" align="right">
 <img src="bat_divider.png" width="25%">
 
-Moving on ...
+The pins are
+
+![Pinmap T-Display](pinmap_t-display.jpg)
