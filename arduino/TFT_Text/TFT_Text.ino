@@ -7,13 +7,10 @@ void setup() {
   tft.init();
   tft.fillScreen(TFT_BLACK);
   tft.setCursor(0, 0);
-  tft.setTextColor(TFT_WHITE);
-  tft.setTextWrap(true);
-  tft.println("Hello world!");
-  delay(1000);
+  tft.setTextColor(TFT_GREEN);
 }
 
 void loop() {
-  tft.print(".");
-  delay(500);
+  tft.print("Hello world! ");
+  delay(1000);
 }
