@@ -1,0 +1,16 @@
+---
+---
+
+// css for kreier.github.io/impact      #original with headline #147878
+
+$header-bg-color: #166989;           // #159959 bottom right corner
+$header-bg-color-secondary: #168969; // #155999 top left corner
+
+$body-link-color: #0000CC;           // #7EA7D3
+$blockquote-text-color: #819198;
+
+$section-headings-color: #147878;    // #159957
+
+$code-text-color: #191A1A;           // #494D4E;
+
+@import "{{ site.theme }}";
