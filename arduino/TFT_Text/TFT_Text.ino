@@ -13,4 +13,6 @@ void setup() {
 void loop() {
   tft.print("Hello world! ");
   delay(1000);
+ // pinMode(4, OUTPUT);
+ // digitalWrite(4, LOW); switch off backlight
 }
