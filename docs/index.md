@@ -15,8 +15,9 @@ Some example programs:
 Examples here are:
 
 - [Starfield simulation](https://github.com/kreier/t-display/tree/main/arduino/TFT_Starfield)
-- Analog readings
-- 
+- [Mandelbrot calculation](https://github.com/kreier/t-display/tree/main/arduino/TFT_Mandlebrot)
+- [Matrix simulation](https://github.com/kreier/t-display/tree/main/arduino/TFT_Matrix)
+- [Analog readings](https://github.com/kreier/t-display/tree/main/arduino/TFT_Voltage)
 
 ![Starfield simulation](starfield.gif)
 
@@ -26,7 +27,25 @@ You need the following 5 steps to be able to program your T-Display with your La
 
 ## Installation of MicroPython
 
-Follow these 4 steps for MicroPython
+Follow these 4 steps for MicroPython:
+
+- Download the latest python firmware for the ESP32 from [micropython.org](https://micropython.org/download/esp32/)
+- Check your board with ```esptool.exe --port COM6 flash_id```
+- Erase the flash ```esptool --port COM6 erase_flash```
+- Flash the new firmware with ```esptool --port COM6 --baud 115200 ```
+- Flash the new firmware with ```esptool --chip esp32 --port COM6 --baud 460800 write_flash -z 0x1000 esp32-20200902-v1.13.bin```
+
+The esptool.exe is most likely located in your local folder C:\Users\You\AppData\Local\Arduino15\packages\esp32\tools\esptool_py\2.6.1\. To upload and download your python programs to your ESP32 you need thonny. For the editor you have some options:
+
+- [Thonny]() 17 MByte
+- [Mu Editor](https://codewith.mu/en/download) 65 MByte
+
+If you have already Arduino IDE you can directly connect to the REPL interface:
+
+``` py
+>>> print("Hello world!")
+Hello world.
+```
 
 ## Power consumption
 
