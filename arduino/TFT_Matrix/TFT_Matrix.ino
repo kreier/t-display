@@ -3,6 +3,9 @@
 // then scroll smoothly
 
 // Needs GLCD font
+// adapted for 135x240 screen from TTGO T-Display
+
+// Here https://github.com/Bodmer/TFT_eSPI/issues/493 the comment ghostoy solved the problem
 
 /*
  Make sure all the display driver and pin comnenctions are correct by
@@ -19,12 +22,12 @@
 TFT_eSPI tft = TFT_eSPI();       // Invoke custom library
 
 #define TEXT_HEIGHT 8 // Height of text to be printed and scrolled
-#define BOT_FIXED_AREA 0  // Number of lines in bottom fixed area (lines counted from bottom of screen)
-#define TOP_FIXED_AREA 0  // Number of lines in top fixed area (lines counted from top of screen)
+#define BOT_FIXED_AREA 40  // Number of lines in bottom fixed area (lines counted from bottom of screen)
+#define TOP_FIXED_AREA 40  // Number of lines in top fixed area (lines counted from top of screen)
 
 uint16_t yStart = TOP_FIXED_AREA;
-uint16_t yArea = 240 - TOP_FIXED_AREA - BOT_FIXED_AREA;
-uint16_t yDraw = 240 - BOT_FIXED_AREA - TEXT_HEIGHT;
+uint16_t yArea = 320 - TOP_FIXED_AREA - BOT_FIXED_AREA;
+uint16_t yDraw = 240 - TEXT_HEIGHT;
 byte     pos[42];
 uint16_t xPos = 0;
 
@@ -38,46 +41,36 @@ void setup() {
 }
 
 void loop(void) {
-// First fill the screen with random streaks of characters
-  for (int j = 0; j < 400; j += TEXT_HEIGHT) {
+  // First fill the screen with random streaks of characters
+  for (int j = 0; j < 600; j += TEXT_HEIGHT) {
     for (int i = 0; i < 40; i++) {
-      // Rapid fade initially brightness values
-      if (pos[i] > 20)
-        pos[i] -= 3;
-      // Slow fade later
-      if (pos[i] > 0)
-        pos[i] -= 1;
-      // ~1 in 20 probability of a new character
-      if ((random(20) == 1) && (j < 200))
-        pos[i] = 63;
-      // Set the green character brightness
-      tft.setTextColor(pos[i] << 5, TFT_BLACK);
-      // Draw white character
-      if (pos[i] == 63)
-        tft.setTextColor(TFT_WHITE, TFT_BLACK);
-      // Draw the character
-      xPos += tft.drawChar(random(32, 128), xPos, yDraw, 1);
+      if (pos[i] > 20) pos[i] -= 3; // Rapid fade initially brightness values
+      if (pos[i] > 0) pos[i] -= 1; // Slow fade later
+      if ((random(20) == 1) && (j<400)) pos[i] = 63; // ~1 in 20 probability of a new character
+      tft.setTextColor(pos[i] << 5, TFT_BLACK); // Set the green character brightness
+      if (pos[i] == 63) tft.setTextColor(TFT_WHITE, TFT_BLACK); // Draw white character
+      xPos += tft.drawChar(random(32, 128), xPos, yDraw, 1); // Draw the character
     }
-    // Scroll, 14ms per pixel line
-    yDraw = scroll_slow(TEXT_HEIGHT, 14);
+    yDraw = scroll_slow(TEXT_HEIGHT, 14); // Scroll, 14ms per pixel line
     xPos = 0;
   }
 
+  //tft.setRotation(2);
+  //tft.setTextColor(63 << 5, ILI9341_BLACK);
+  //tft.drawCentreString("MATRIX",120,60,4);
+  //tft.setRotation(0);
+
   // Now scroll smoothly forever
-  while (1) {
-    yield();
-    yDraw = scroll_slow(240, 5);
-  } // Scroll 320 lines, 5ms per line
+  while (1) {yield(); yDraw = scroll_slow(320,5); }// Scroll 320 lines, 5ms per line
 
 }
 
 void setupScrollArea(uint16_t TFA, uint16_t BFA) {
-  // Vertical scroll definition
-  tft.writecommand(ST7789_VSCRDEF);
+  tft.writecommand(ST7789_VSCRDEF); // Vertical scroll definition
   tft.writedata(TFA >> 8);
   tft.writedata(TFA);
-  tft.writedata((240 - TFA - BFA) >> 8);
-  tft.writedata(240 - TFA - BFA);
+  tft.writedata((320 - TFA - BFA) >> 8);
+  tft.writedata(320 - TFA - BFA);
   tft.writedata(BFA >> 8);
   tft.writedata(BFA);
 }
@@ -86,17 +79,15 @@ int scroll_slow(int lines, int wait) {
   int yTemp = yStart;
   for (int i = 0; i < lines; i++) {
     yStart++;
-    if (yStart == 240 - BOT_FIXED_AREA)
-      yStart = TOP_FIXED_AREA;
+    if (yStart == 320 - BOT_FIXED_AREA) yStart = TOP_FIXED_AREA;
     scrollAddress(yStart);
     delay(wait);
   }
-  return yTemp;
+  return  yTemp - 40;
 }
 
 void scrollAddress(uint16_t VSP) {
-  // Vertical scrolling start address
-  tft.writecommand(0x37); // ILI9341_VSCRSADD);
+  tft.writecommand(0x37); // Vertical scrolling start address ILI9341_VSCRSADD
   tft.writedata(VSP >> 8);
   tft.writedata(VSP);
 }
