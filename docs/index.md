@@ -1,5 +1,8 @@
 # Projects with the TTGO T-Display
 
+[![GitHub release](https://img.shields.io/github/release/kreier/t-display.svg)](https://GitHub.com/kreier/t-display/releases/)
+[![MIT license](https://img.shields.io/github/license/kreier/t-display)](https://kreier.mit-license.org/)
+
 Installation and power measurements are found at the bottom of this document.
 
 ## MicroPython
@@ -8,7 +11,13 @@ Some example programs:
 
 - Mandelbrot
 - green terminal
-- prime numbers
+- [prime numbers](https://github.com/kreier/t-display/blob/main/micropython/prime10000_esp32_fast.py)
+
+### With the TFT display in /tft folder
+
+- Mandelbrot
+- Scrolling
+- Matrix
 
 ## Arduino C
 
@@ -29,9 +38,11 @@ You need the following 5 steps to be able to program your T-Display with your La
 
 ### Simplified Installation
 
-You need 2 programs and 1 file to get started with MicroPython on the T-Display. I downloaded the most recent in November 2020 and have them here:
+You need 2 programs and 1 file to get started with MicroPython on the T-Display. I downloaded the most recent in November 2020 and put them in the [first v0.1 release](https://github.com/kreier/t-display/releases/tag/v0.1). They include:
 
-- [esptool 2.6.1](esptool.exe) to install the firmware
+- [esptool 2.6.1](https://github.com/kreier/t-display/releases/download/v0.1/esptool.exe) to install the firmware
+- [firmware.bin](https://github.com/kreier/t-display/releases/download/v0.1/firmware.bin) micropython v1.12 with ST7789V driver library
+- [Thonny 3.3.0](https://github.com/thonny/thonny/releases/download/v3.3.0/thonny-3.3.0.exe) for Windos, [other operation systems](https://github.com/thonny/thonny/releases/tag/v3.3.0)
 
 Connect your T-Display to a USB port of your computer and determine the port. You can do this by right-click on the Windows symbol > Device Manager > ports (COM & LPT) and there you'll find ```Silicon Labs CP210x USB to UART Bridge (COM6)```. Here COM6 would be your serial port. Open ```cmd``` or ```powershell``` and navigate to the folder with the esptool.exe and firmware.bin.
 
