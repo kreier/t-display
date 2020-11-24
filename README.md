@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/release/kreier/t-display.svg)](https://GitHub.com/kreier/t-display/releases/)
 [![MIT license](https://img.shields.io/github/license/kreier/t-display)](https://kreier.mit-license.org/)
 
-This board is chosen as the default board for students to learn programming because it has a display for output, a USB-C connector for data transfer and charging, build-in WiFi and Bluetooth and it is inexpensive. These are major advantages to Arduino Uno, ESP8266 or other ESP32 boards.
+This board is chosen as the default board for students to learn programming because it has a __display__ for output, a __USB-C__ connector for data transfer and charging, build-in __WiFi__ and Bluetooth and it is __inexpensive__. These are major advantages to Arduino Uno, ESP8266 or other ESP32 boards.
 
 We are going to program these both in MicroPython and Arduino C. Installation and power measurements are found at the bottom of this document.
 
@@ -72,6 +72,13 @@ Many pins of the ESP32 that are related to the ADC converter are exposed on the 
 | 26  | ADC2_CH9 |                  | R   | 
 | 21  |          | SDA              |     | 
 | 22  |          | SCL              |     | 
+
+#### Power consumption
+
+- Running 66 mA
+- WiFi 80-140 mA
+- CPU 80 MHz 48 mA
+- Light Sleep 9 mA
 
 ## Installation of MicroPython
 
