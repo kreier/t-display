@@ -49,11 +49,15 @@ void showVoltage()
         timeStamp = millis();
         uint16_t v = analogRead(ADC_PIN);
         float battery_voltage = ((float)v / 4095.0) * 2.0 * 3.3 * (vref / 1000.0);
-        String voltage = "Voltage :" + String(battery_voltage) + "V";
+        String voltage = String(battery_voltage) + "V";
+        Serial.print("Voltage :");
         Serial.println(voltage);
+        tft.setTextSize(2);
         tft.fillScreen(TFT_BLACK);
+        tft.setTextColor(TFT_GREEN);
         tft.setTextDatum(MC_DATUM);
-        tft.drawString(voltage,  tft.width() / 2, tft.height() / 2 );
+        tft.drawString("Voltage :",  tft.width() / 2, tft.height() / 2 - 10);
+        tft.drawString(voltage,  tft.width() / 2, tft.height() / 2 + 10);
     }
 }
 
@@ -64,8 +68,10 @@ void button_init()
         int r = digitalRead(TFT_BL);
         tft.fillScreen(TFT_BLACK);
         tft.setTextColor(TFT_GREEN, TFT_BLACK);
+        tft.setTextSize(2);        
         tft.setTextDatum(MC_DATUM);
-        tft.drawString("Press again to wake up",  tft.width() / 2, tft.height() / 2 );
+        tft.drawString("Press again",  tft.width() / 2, tft.height() / 2 - 10);
+        tft.drawString("to wake up",  tft.width() / 2, tft.height() / 2 + 10);
         espDelay(6000);
         digitalWrite(TFT_BL, !r);
 
@@ -97,9 +103,11 @@ void wifi_scan()
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
     tft.fillScreen(TFT_BLACK);
     tft.setTextDatum(MC_DATUM);
-    tft.setTextSize(1);
+    tft.setTextSize(2);
 
-    tft.drawString("Scan Network", tft.width() / 2, tft.height() / 2);
+    tft.drawString("Scan", tft.width() / 2, tft.height() / 2 - 10);
+    tft.drawString("Network", tft.width() / 2, tft.height() / 2 + 10);
+    tft.setTextSize(1);
 
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
@@ -144,8 +152,8 @@ void setup()
     }
 
     tft.setSwapBytes(true);
-    tft.pushImage(0, 0,  240, 135, ttgo);
-    espDelay(500);
+    tft.pushImage(0, 0,  240, 135, logo);
+    espDelay(1500);
 
     tft.setRotation(0);
     int i = 3;
