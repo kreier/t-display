@@ -48,7 +48,7 @@ void setup() {
   tft.fillScreen(TFT_BLACK);
   tft.setCursor(0, 0);
   tft.setTextColor(TFT_WHITE);
-  tft.setTextWrap(true); //                                           Stage 1
+  tft.setTextWrap(true); //                                         Stage 1
   tft.println("Stage 1:");
   tft.println("Just activated, 10 seconds ...");
   tft.println(" ");
@@ -94,6 +94,13 @@ void setup() {
   setCpuFrequencyMhz(80);
   tft.println(" ");
   delay(10000);
+
+  tft.println("Stage 5a: switch of backlight");
+  delay(2000);
+  pinMode(4, OUTPUT);
+  digitalWrite(4, LOW);
+  delay(8000);
+  digitalWrite(4, HIGH);
 
   flash(6); //                                                      Stage 6
   //tft.print("Going to light sleep now for ");
