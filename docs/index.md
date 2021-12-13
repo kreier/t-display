@@ -101,12 +101,17 @@ As [measured in April 2020](https://github.com/kreier/solarmeter/blob/master/REA
 
 Further measurement has been conducted in November 2020. The results.
 
+- Running 66 mA
+- WiFi 80-140 mA
+- CPU 80 MHz 48 mA
+- Light Sleep 9 mA
+
 You can directly measure the voltage of the LiPo battery on Pin 34. This can be seen in the [provided schematics from TTGO for the T-Display](TTGO_T-Display_schematics.pdf):
 
 <img src="bat_esp32.png" width="65%" align="right">
 <img src="bat_divider.png" width="25%">
 
-The pins on the T-Display are
+The pin on the T-Display is 34 (channel ADC1_CH6) with a 1:2 battery voltage divider. 
 
 ![Pinmap T-Display](pinmap_t-display.jpg)
 
