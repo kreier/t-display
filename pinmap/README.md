@@ -12,10 +12,17 @@ It was requested already according to [https://github.com/adafruit/circuitpython
 
 Some history:
 
-- https://github.com/adafruit/circuitpython/issues/6024 Feb 2022 - still open
-- https://github.com/adafruit/circuitpython/pull/6037 Feb 2022 - still open
+- https://github.com/adafruit/circuitpython/issues/6024 Feb 2022 - closed
+- https://github.com/adafruit/circuitpython/pull/6037 Feb 2022 - still open, April 1st @fabaff that raspberry want OEM to make request
 - https://github.com/Xinyuan-LilyGO/LILYGO-T-display-RP2040/issues/5 March 2022
 - https://github.com/Xinyuan-LilyGO/LILYGO-T-display-RP2040/issues/13 Dec 2022
+
+Timeline:
+- Feb 15th, 2022 @erongd got it working, see issue #6024 on circuitpython
+- Mar 19th, 2022 both @erongd and @fabaff submitted a PID request to raspberrypi (VID 2E8A)
+- April 1st, 2022 pull 6037: @fabaff got response that raspberry pi wants OEM to make PID request
+- November 16th, 2022 pull 6037 @tannewt suggests the use of pid.codes to solve the problem
+- March 9th, 2022 PID pull request created for pid.codes https://github.com/pidcodes/pidcodes.github.com/pull/827
 
 ## Post on the forum
 
