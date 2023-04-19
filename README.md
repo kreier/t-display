@@ -5,6 +5,16 @@
 
 This board is chosen as the default board for students to learn programming because it has a __display__ for output, a __USB-C__ connector for data transfer and charging, build-in __WiFi__ and Bluetooth and it is __inexpensive__. These are major advantages to Arduino Uno, ESP8266 or other ESP32 boards.
 
+## Circuitpython
+
+In early 2023 we finally got support for Circuitpython! This eases so much of the student project work, since the libraries are easily available. And adafruit has great learning resources with good documentation!
+
+- https://circuitpython.org/board/unknown/?unknown_id=lilygo_ttgo_tdisplay_esp32_16m
+- Soon the one click installer like: https://circuitpython.org/board/doit_esp32_devkit_v1/
+- File management will be done over wifi (usb with Thonny and MicroPython was always a little clunky)
+
+#### Statement from November 2020 (deprecated)
+
 We are going to program these both in MicroPython and Arduino C. Installation and power measurements are found at the bottom of this document.
 
 ## Micropython
