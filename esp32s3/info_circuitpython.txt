@@ -1,0 +1,16 @@
+The esp32s3 has 8MB PSRAM and 16MB Flash size
+
+I used this board successfully: 
+YD-ESP32-S3 N16R8
+by VCC-GND Studio
+https://circuitpython.org/board/yd_esp32_s3_n16r8/
+
+The garbage collector shows 8GB free space.
+The explorer shows 13.8 MB free for programs and data.
+
+GPIO06 is not available ...
+
+Try this one
+ESP32-S3-DevKitC-1-N8R8
+by Espressif
+https://circuitpython.org/board/espressif_esp32s3_devkitc_1_n8r8/
