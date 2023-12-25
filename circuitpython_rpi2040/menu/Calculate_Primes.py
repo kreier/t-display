@@ -55,7 +55,7 @@ led.direction = digitalio.Direction.OUTPUT
 led.value = True
 button_next = digitalio.DigitalInOut(board.BUTTON_L)
 button_next.direction = digitalio.Direction.INPUT
-button_ok = digitalio.DigitalInOut(board.BUTTON_R)
+button_ok = digitalio.DigitalInOut(board.GP7)        # GP7 DigitalInOut(board.BUTTON_R)
 button_ok.direction = digitalio.Direction.INPUT
 display = board.DISPLAY
 
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     font = bitmap_font.load_font(font_file)
     color = 0xFFFFFF
 
-    text_area = label.Label(font, text="   Calculating primes to   ", color=0x44FF88, background_color=0x000000)
+    text_area = label.Label(font, text="   Calculating primes to   ", color=0x4488FF, background_color=0x000000)
     text_area.x = 0
     text_area.y = 20
     current_scope = label.Label(
@@ -119,8 +119,18 @@ if __name__ == "__main__":
     percent.x = 60
     percent.y = 50
     text_area.append(percent)
+    runtime_color = 0xFF0000
+    try:
+        with open("/data/summary.txt", "w") as fp:
+            fp.write(board.board_id)
+            fp.write(f"\nResults from Prime v5.4 on T-PicoC3")
+            runtime_color = 0x00FF00
+    except:
+        print(
+            "Can't write to the filesystem. Press reset and after that the boot button in the first 5 seconds"
+        )
     runtime = label.Label(
-        font, text=" 0h 0min 0s ", color=color, background_color=0x000000
+        font, text=" 0h 0min 0s ", color=runtime_color, background_color=0x000000
     )
     runtime.x = 70
     runtime.y = 75
@@ -142,7 +152,7 @@ if __name__ == "__main__":
         last = scope[current_selection]
         found = 4  # we start from 11, know 2, 3, 5, 7
         primes = [3, 5, 7]  # exclude 2 since we only test odd numbers
-
+        
         if not button_next.value:
             led.value = True
             current_selection += 1
@@ -156,8 +166,8 @@ if __name__ == "__main__":
             led.value = False
         if not button_ok.value:
             # long press should be exit!
-
-            print(f"\nPrime numbers to {last} in v5.4")
+      
+            print(f"\nPrime numbers to {scope_text[current_selection]} in v5.4")
             current_scope.color = 0xFF0000
             start = time.monotonic()
             dot = start
@@ -194,12 +204,12 @@ if __name__ == "__main__":
             runtime_seconds.text = f"{duration:.6f} seconds"
             print(f"This took: {duration} seconds.")
             print(f"Found {found} primes.")
-            filename = "/data/" + str(last) + ".txt"
+            filename = "/data/" + str(last) + ".txt"        
             try:
                 with open(filename, "w") as fp:
                     fp.write(board.board_id)
-                    fp.write(f"\nPrimes to {last} took {duration} seconds.")
-                    fp.write(f"\nFound {found} primes. Should be {reference[i]}.")
+                    fp.write(f"\nPrimes to {scope_text[current_selection]} took {duration} seconds.")
+                    fp.write(f"\nFound {found} primes. Should be {reference[current_selection]}.")
                     print("Exported to filesystem ")
             except:
                 print(
@@ -207,7 +217,7 @@ if __name__ == "__main__":
                 )
 
 
-
+        
     for i in range(8):  # 8 needs less than a day - len(scope)
         last = scope[i]
         found = 4  # we start from 11, know 2, 3, 5, 7
