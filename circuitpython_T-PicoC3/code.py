@@ -12,9 +12,9 @@ font_file = "fonts/LeagueSpartan-Bold-16.pcf"
 led = digitalio.DigitalInOut(board.LED) # GP25
 led.direction = digitalio.Direction.OUTPUT
 led.value = True
-button_next = digitalio.DigitalInOut(board.BUTTON_L)
+button_next = digitalio.DigitalInOut(board.BUTTON_L) # GP6
 button_next.direction = digitalio.Direction.INPUT
-button_ok = digitalio.DigitalInOut(board.BUTTON_R)
+button_ok = digitalio.DigitalInOut(board.GP7)        # GP7
 button_ok.direction = digitalio.Direction.INPUT
 display = board.DISPLAY
 
