@@ -1,3 +1,23 @@
+# Comparison for the 3 editions: ESP32, rp2040 and T-PicoC3
+
+![pinmap comparison](pinmap_T-Display.png)
+
+Here are the individual boards:
+
+## T-Display ESP32
+
+![T-Display ESP32](pinmap_esp32.jpg)
+
+## T-Display rp2040
+
+![T-Display rp2040](pinmap_T-display-RP2040.jpg)
+
+## T-PicoC3
+
+![T-PicoC3](pinmap_T-PicoC3.jpg)
+
+March 2023
+
 # Circuitpython on T-Display rp2040 and T-PicoC3
 
 Both boards are similar to the T-Display from 2019, but have a rp2040 MCU and in case of the C3 and additional esp32c3 for wifi connectivity.

@@ -38,6 +38,62 @@ Lilygo or TTGO has 3 different version of the same form factor in their reposito
 
 ![pinmap T-Display](pinmap_T-Display.png)
 
+
+# History
+
+Timeline:
+- Feb 15th, 2022 @erongd got it working, see issue #6024 on circuitpython
+- Mar 19th, 2022 both @erongd and @fabaff submitted a PID request to raspberrypi (VID 2E8A)
+- April 1st, 2022 pull 6037: @fabaff got response that raspberry pi wants OEM to make PID request - merged on May 16, 2023
+- November 16th, 2022 pull 6037 @tannewt suggests the use of pid.codes to solve the problem
+- March 9th, 203 PID pull request created for pid.codes https://github.com/pidcodes/pidcodes.github.com/pull/827
+- May 13th, 2023 new PID 2023 for VID 1209 created - we got [2023](https://pid.codes/pids/)!
+- May 16th, 2023 pull request to add T-Display rp2040 to Circuitpython merged. Done!
+
+## Post on the forum
+
+- https://community.lilygo.cc/topic/50/help-with-usb-vid-pid-for-circuitpython February 2022
+- https://community.lilygo.cc/topic/145/t-display-rp2040-needs-usb-vid-pid?_=1678274382618 December 2022
+
+# Circuitpython on T-Display rp2040 and T-PicoC3
+
+Both boards are similar to the T-Display from 2019, but have a rp2040 MCU and in case of the C3 and additional esp32c3 for wifi connectivity.
+
+To support them we need a VID and PID combination, see https://github.com/adafruit/circuitpython/pull/6037
+
+Since the MCU is a rp2040 the VID could be `USB_VID = 0x2E8A` (that's the Raspberry Pi foundation) and we need to request a PID according to 
+
+https://github.com/raspberrypi/usb-pid
+
+It was requested already according to [https://github.com/adafruit/circuitpython/pull/6037](https://github.com/Xinyuan-LilyGO/LILYGO-T-display-RP2040/issues/5) from May 25, 2022:
+
+Some history:
+
+- https://github.com/adafruit/circuitpython/issues/6024 Feb 2022 - closed
+- https://github.com/adafruit/circuitpython/pull/6037 Feb 2022 - April 1st @fabaff that raspberry want OEM to make request, merged May 16, 2023
+- https://github.com/Xinyuan-LilyGO/LILYGO-T-display-RP2040/issues/5 March 2022 - still open
+- https://github.com/Xinyuan-LilyGO/LILYGO-T-display-RP2040/issues/13 Dec 2022 - still open
+- https://github.com/adafruit/circuitpython/pull/6037#issuecomment-1546444759 May 13, 2023
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Legacy content to be fixed later ...
 
 The starting image is for the DOIT ESP32 
