@@ -1,7 +1,7 @@
 # Menu selector v0.3 for LILYGO T-Display rp2040 - 2023/12/28
 # https://github.com/kreier/t-display/tree/main/circuitpython9
 
-import time, board, digitalio, os, terminalio, config, gc
+import time, board, digitalio, os, terminalio, config
 from adafruit_display_text import label
 from adafruit_bitmap_font import bitmap_font
 
@@ -12,10 +12,12 @@ BUTTON_NEXT = digitalio.DigitalInOut(config.pin_button_next)
 BUTTON_NEXT.direction = digitalio.Direction.INPUT
 BUTTON_OK = digitalio.DigitalInOut(config.pin_button_ok)
 BUTTON_OK.direction = digitalio.Direction.INPUT
+if config.pullup:
+    BUTTON_NEXT.pull = digitalio.Pull.UP
+    BUTTON_OK.pull   = digitalio.Pull.UP
 
 font_file = "fonts/LeagueSpartan-Bold-16.pcf"
-display = board.DISPLAY
-gc.collect()
+display = config.disp
 
 programs  = []  # link to all programs installed in /menu (avoid clutter from all apps in /apps)
 menu      = []  # all menu options - can be more than fit on the display
@@ -41,11 +43,11 @@ for i, x in enumerate(directory):
 number_programs = len(programs)  # number of installed programs
 
 # first menu item:
-menu.append(" Settings [{}] ".format(number_programs))
+menu.append(" Settings ")
 for i, x in enumerate(programs):
     menu.append(" " + x[:-3].replace("_", " ") + " ")  # remove the .py from program files
 
-statusbar = label.Label(terminalio.FONT, text=f" CP 9.0 | {number_programs}     ", color=0x99AAFF)
+statusbar = label.Label(terminalio.FONT, text=f" CP 9.0 | {number_programs}     ", color=0xCCDDFF)
 statusbar.x = 0
 statusbar.y = 6
 battery = label.Label(terminalio.FONT, text="100%", color=0x00FF00)

@@ -2,7 +2,7 @@
 # cycles through limits and writes to the filesystem
 # https://github.com/kreier/t-display/tree/main/circuitpython_rpi2040/menu
 
-import math, time, digitalio, board, os, terminalio
+import math, time, digitalio, board, os, terminalio, config
 from adafruit_display_text import label
 from adafruit_bitmap_font import bitmap_font
 
@@ -50,14 +50,19 @@ scope_text = [
     "2,147,483,647",
     "4,294,967,295",
 ]
-led = digitalio.DigitalInOut(board.LED)
-led.direction = digitalio.Direction.OUTPUT
-led.value = True
-button_next = digitalio.DigitalInOut(board.BUTTON_L)
-button_next.direction = digitalio.Direction.INPUT
-button_ok = digitalio.DigitalInOut(board.GP7)        # GP7 DigitalInOut(board.BUTTON_R)
-button_ok.direction = digitalio.Direction.INPUT
-display = board.DISPLAY
+
+import time, board, digitalio, config
+LED = digitalio.DigitalInOut(config.pin_led)
+LED.direction = digitalio.Direction.OUTPUT
+LED.value = True
+BUTTON_NEXT = digitalio.DigitalInOut(config.pin_button_next)
+BUTTON_NEXT.direction = digitalio.Direction.INPUT
+BUTTON_OK = digitalio.DigitalInOut(config.pin_button_ok)
+BUTTON_OK.direction = digitalio.Direction.INPUT
+if config.pullup:
+    BUTTON_NEXT.pull = digitalio.Pull.UP
+    BUTTON_OK.pull   = digitalio.Pull.UP
+display = config.disp
 
 
 def is_prime(number):
@@ -119,16 +124,16 @@ if __name__ == "__main__":
     percent.x = 60
     percent.y = 50
     text_area.append(percent)
-    runtime_color = 0xFF0000
-    try:
-        with open("/data/summary.txt", "w") as fp:
-            fp.write(board.board_id)
-            fp.write(f"\nResults from Prime v5.4 on T-PicoC3")
-            runtime_color = 0x00FF00
-    except:
-        print(
-            "Can't write to the filesystem. Press reset and after that the boot button in the first 5 seconds"
-        )
+    runtime_color = 0x00FF00
+#    try:
+#        with open("/data/summary.txt", "w") as fp:
+#            fp.write(board.board_id)
+#            fp.write(f"\nResults from Prime v5.4 on T-PicoC3")
+#            runtime_color = 0x00FF00
+#    except:
+#       print(
+#            "Can't write to the filesystem. Press reset and after that the boot button in the first 5 seconds"
+#        )
     runtime = label.Label(
         font, text=" 0h 0min 0s ", color=runtime_color, background_color=0x000000
     )
@@ -147,26 +152,26 @@ if __name__ == "__main__":
     current_scope.text = scope_text[current_selection]
     current_scope.x = 120 - len(scope_text[current_selection]) * 5
     timer = time.monotonic()
-    led.value = True
+    LED.value = True
     while True:
         last = scope[current_selection]
         found = 4  # we start from 11, know 2, 3, 5, 7
         primes = [3, 5, 7]  # exclude 2 since we only test odd numbers
-        
-        if not button_next.value:
-            led.value = True
+
+        if not BUTTON_NEXT.value:
+            LED.value = True
             current_selection += 1
             if current_selection >= len(scope):
                 current_selection = 0
             current_scope.text = scope_text[current_selection]
             current_scope.x = 120 - len(scope_text[current_selection]) * 5
             runtime_seconds.text = "  "
-            while not button_next.value:
+            while not BUTTON_NEXT.value:
                 pass
-            led.value = False
-        if not button_ok.value:
+            LED.value = False
+        if not BUTTON_OK.value:
             # long press should be exit!
-      
+
             print(f"\nPrime numbers to {scope_text[current_selection]} in v5.4")
             current_scope.color = 0xFF0000
             start = time.monotonic()
@@ -183,7 +188,7 @@ if __name__ == "__main__":
                 if (time.monotonic() - dot) > 5:
                     print(f".", end="")
                     dot = time.monotonic()
-                    led.value = not led.value
+                    LED.value = not LED.value
                     column += 1
                     percent.text = f"{(number/ (last / 100.0)):.2f} Percent  "
                     runtime.text = elapsed_time(time.monotonic() - start)
@@ -192,10 +197,10 @@ if __name__ == "__main__":
                         t = elapsed_time(time.monotonic() - start)
                         print(f" {t} - {number} {(number*100/last):.3f}% ")
                         column = 1
-                    if not button_ok.value:    # make exit available
-                        led.deinit()
-                        button_ok.deinit()
-                        button_next.deinit()
+                    if not BUTTON_OK.value:    # make exit available
+                        LED.deinit()
+                        BUTTON_OK.deinit()
+                        BUTTON_NEXT.deinit()
                         exec(open("code.py").read())
             duration = time.monotonic() - start
             current_scope.color = 0xFFFFFF
@@ -204,7 +209,7 @@ if __name__ == "__main__":
             runtime_seconds.text = f"{duration:.6f} seconds"
             print(f"This took: {duration} seconds.")
             print(f"Found {found} primes.")
-            filename = "/data/" + str(last) + ".txt"        
+            filename = "/data/" + str(last) + ".txt"
             try:
                 with open(filename, "w") as fp:
                     fp.write(board.board_id)
@@ -217,7 +222,7 @@ if __name__ == "__main__":
                 )
 
 
-        
+
     for i in range(8):  # 8 needs less than a day - len(scope)
         last = scope[i]
         found = 4  # we start from 11, know 2, 3, 5, 7
@@ -268,12 +273,13 @@ if __name__ == "__main__":
         time_calc[i] = duration
 
 timer = time.monotonic()
-led.value = True
+LED.value = True
 while True:
-    if not button_next.value:
-        led.deinit()
-        button_next.deinit()
+    if not BUTTON_OK.value:
+        LED.deinit()
+        BUTTON_OK.deinit()
+        BUTTON_NEXT.deinit()
         exec(open("code.py").read())
     if timer + 0.4 < time.monotonic():
-        led.value = not led.value
+        LED.value = not LED.value
         timer = time.monotonic()

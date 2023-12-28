@@ -6,9 +6,9 @@ import board, displayio
 splash = displayio.Group()
 display.root_group = splash
 
-color_bitmap = displayio.Bitmap(240, 135, 1)
+color_bitmap = displayio.Bitmap(display.width, display.height, 1)
 color_palette = displayio.Palette(1)
-color_palette[0] = 0xFF0000
+color_palette[0] = 0x2345FF
 
 bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
 splash.append(bg_sprite)
@@ -18,6 +18,8 @@ splash.append(bg_sprite)
 import time, board, digitalio, config
 BUTTON_EXIT = digitalio.DigitalInOut(config.pin_button_ok)
 BUTTON_EXIT.direction = digitalio.Direction.INPUT
+if config.pullup:
+    BUTTON_EXIT.pull = digitalio.Pull.UP
 LED = digitalio.DigitalInOut(config.pin_led)
 LED.direction = digitalio.Direction.OUTPUT
 timer = time.monotonic()
