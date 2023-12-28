@@ -1,12 +1,8 @@
 # ST7789 on T-Display RP2040 @kreier 2023-03-04
+# update 2023-12-28 to universal menu version
 
-import board, time, displayio, digitalio, terminalio
+import displayio, digitalio, terminalio
 from adafruit_display_text import label
-
-BUTTON_EXIT = digitalio.DigitalInOut(config.pin_button_ok)
-BUTTON_EXIT.direction = digitalio.Direction.INPUT
-LED = digitalio.DigitalInOut(config.pin_led)
-LED.direction = digitalio.Direction.OUTPUT
 
 # First set some parameters used for shapes and text
 BORDER = 20
@@ -49,6 +45,14 @@ text_group = displayio.Group(
 text_group.append(text_area)  # Subgroup for text scaling
 splash.append(text_group)
 
+
+
+# standardized final loop part for T-Display programs to return to the menu
+import time, board, digitalio, config
+BUTTON_EXIT = digitalio.DigitalInOut(config.pin_button_ok)
+BUTTON_EXIT.direction = digitalio.Direction.INPUT
+LED = digitalio.DigitalInOut(config.pin_led)
+LED.direction = digitalio.Direction.OUTPUT
 timer = time.monotonic()
 LED.value = True
 while True:
@@ -56,6 +60,6 @@ while True:
         LED.deinit()
         BUTTON_EXIT.deinit()
         exec(open("code.py").read())
-    if timer + 0.2 < time.monotonic():
+    if timer + 2 < time.monotonic():
         LED.value = not LED.value
         timer = time.monotonic()

@@ -1,7 +1,7 @@
 # Menu selector v0.3 for LILYGO T-Display rp2040 - 2023/12/28
 # https://github.com/kreier/t-display/tree/main/circuitpython9
 
-import time, board, digitalio, os, terminalio, config
+import time, board, digitalio, os, terminalio, config, gc
 from adafruit_display_text import label
 from adafruit_bitmap_font import bitmap_font
 
@@ -15,6 +15,7 @@ BUTTON_OK.direction = digitalio.Direction.INPUT
 
 font_file = "fonts/LeagueSpartan-Bold-16.pcf"
 display = board.DISPLAY
+gc.collect()
 
 programs  = []  # link to all programs installed in /menu (avoid clutter from all apps in /apps)
 menu      = []  # all menu options - can be more than fit on the display
