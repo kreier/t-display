@@ -9,9 +9,17 @@ This board is chosen as the default board for students to learn programming beca
 
 In early 2023 we finally got support for Circuitpython! This eases so much of the student project work, since the libraries are easily available. And adafruit has great learning resources with good documentation!
 
-- https://circuitpython.org/board/unknown/?unknown_id=lilygo_ttgo_tdisplay_esp32_16m
-- Soon the one click installer like: https://circuitpython.org/board/doit_esp32_devkit_v1/
-- File management will be done over wifi (usb with Thonny and MicroPython was always a little clunky)
+- https://circuitpython.org/board/lilygo_ttgo_tdisplay_esp32_16m/
+- https://circuitpython.org/board/lilygo_t_display_rp2040/
+- On the downloead page with the one click installer: https://circuitpython.org/board/doit_esp32_devkit_v1/
+- File management with ESP32 over WiFi (USB with Thonny is always a little clunky)
+- With rp2040 direct USB drive access and Mu support!
+
+### Pinmap for the 3 editions of this board
+
+Lilygo or TTGO has 3 different version of the same form factor in their repository, and the pins are slightly different between the versions. Look here for comparison:
+
+![pinmap T-Display](add_support_for_circuitpython/pinmap_T-Display.png)
 
 #### Statement from November 2020 (deprecated)
 

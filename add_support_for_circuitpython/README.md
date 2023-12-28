@@ -1,5 +1,45 @@
 # TTGO T-Display ESP32 board
 
+It is supported by Circuitpython since 2023. Get the latest image here: [https://circuitpython.org/board/lilygo_ttgo_tdisplay_esp32_16m/](https://circuitpython.org/board/lilygo_ttgo_tdisplay_esp32_16m/)
+
+It includes an online installer!
+
+# TTGO T-Display rp2040
+
+It took some time to get the needed  USB-PID but we got it eventually and now this board is supported as well. Check out the current builds:
+
+[https://circuitpython.org/board/lilygo_t_display_rp2040/](https://circuitpython.org/board/lilygo_t_display_rp2040/)
+
+## Known issues
+
+Some of the later 8.2.x builds no longer activate the display correctly, but it works fine with the newer 9.0.x buils. Probably no need to fix anything, to with the new iteration.
+
+Some pins are not included in the definition [https://github.com/adafruit/circuitpython/blob/main/ports/raspberrypi/boards/lilygo_t_display_rp2040/pins.c](https://github.com/adafruit/circuitpython/blob/main/ports/raspberrypi/boards/lilygo_t_display_rp2040/pins.c) namely:
+
+Left side
+
+- GPIO29
+- GPIO28
+- GPIO27
+- GPIO24
+- GPIO23
+
+Right side
+
+- GPIO 17
+- GPIO 19
+- GPIO 20
+
+Make a pull request! You have $10 + 9 = 19$ GPIO pins on this board, it would be sad if you could not use 8 of them.
+
+## Pinmap for the 3 editions of this board
+
+Lilygo or TTGO has 3 different version of the same form factor in their repository, and the pins are slightly different between the versions. Look here for comparison:
+
+![pinmap T-Display](pinmap_T-Display.png)
+
+## Legacy content to be fixed later ...
+
 The starting image is for the DOIT ESP32 
 
 
