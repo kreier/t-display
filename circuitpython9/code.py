@@ -1,4 +1,4 @@
-# Menu selector v0.3 for LILYGO T-Display rp2040 - 2023/12/28
+# Menu selector v0.3 for LILYGO T-Display rp2040 - 2023/12/29
 # https://github.com/kreier/t-display/tree/main/circuitpython9
 
 import time, board, digitalio, os, terminalio, config

@@ -27,3 +27,10 @@ if board.board_id == 'vcc_gnd_yd_rp2040':
         spi, command=tft_dc, chip_select=tft_cs, reset=board.GP12
     )
     disp = ST7789(display_bus, width=240, height=240, rowstart=80)
+
+if board.board_id == 'lilygo_ttgo_tdisplay_esp32_4m':
+    pin_led         = board.IO12     # it actually has no LED
+    pin_button_next = board.BUTTON0
+    pin_button_ok   = board.BUTTON1
+    pullup = True    
+    disp = board.DISPLAY
