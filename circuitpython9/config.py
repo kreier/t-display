@@ -5,15 +5,16 @@
 
 import digitalio, board
 
-pin_led = board.LED
 pullup = False
 
 if board.board_id == 'lilygo_t_display_rp2040':
+    pin_led         = board.LED
     pin_button_next = board.BUTTON_L
     pin_button_ok   = board.BUTTON_R
     disp            = board.DISPLAY
 
 if board.board_id == 'vcc_gnd_yd_rp2040':
+    pin_led         = board.LED
     pin_button_next = board.GP16
     pin_button_ok   = board.GP3
     pullup = True
@@ -32,5 +33,5 @@ if board.board_id == 'lilygo_ttgo_tdisplay_esp32_4m':
     pin_led         = board.IO12     # it actually has no LED
     pin_button_next = board.BUTTON0
     pin_button_ok   = board.BUTTON1
+    disp            = board.DISPLAY
     pullup = True    
-    disp = board.DISPLAY
