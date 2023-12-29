@@ -7,7 +7,7 @@ import board
 
 pullup = False
 
-if board.board_id == 'lilygo_t_display_rp2040':
+if board.board_id == 'lilygo_t_display_rp2040' or board.board_id == 'lilygo_t_picoc3':
     pin_led         = board.LED
     pin_button_next = board.BUTTON_L
     pin_button_ok   = board.BUTTON_R
