@@ -1,6 +1,6 @@
 # mandelbrot on rp2040 with lcd 240x240
 # https://github.com/kreier/rp2040/blob/main/tft_st7789_240x240/menu/Mandelbrot.py
-# 2023/12/26 v0.2
+# 2023/12/26 v0.3
 
 import board, displayio, random, digitalio
 
@@ -37,7 +37,7 @@ group = displayio.Group()
 group.append(tile_grid)
 
 # Add the Group to the Display
-display.show(group)
+display.root_group = group
 
 # Draw even more pixels
 #for c in range(len(palette)):
