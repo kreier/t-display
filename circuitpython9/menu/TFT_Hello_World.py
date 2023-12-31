@@ -49,7 +49,7 @@ splash.append(text_group)
 
 # standardized final loop part for T-Display programs to return to the menu
 import time, board, digitalio, config
-BUTTON_EXIT = digitalio.DigitalInOut(config.pin_button_ok)
+BUTTON_EXIT = digitalio.DigitalInOut(config.pin_button_exit)
 BUTTON_EXIT.direction = digitalio.Direction.INPUT
 if config.pullup:
     BUTTON_EXIT.pull = digitalio.Pull.UP

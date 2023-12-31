@@ -5,7 +5,7 @@ import time, board, digitalio, config, displayio
 
 display = config.disp
 display.root_group = displayio.CIRCUITPYTHON_TERMINAL
-BUTTON_EXIT = digitalio.DigitalInOut(config.pin_button_ok)
+BUTTON_EXIT = digitalio.DigitalInOut(config.pin_button_exit)
 BUTTON_EXIT.direction = digitalio.Direction.INPUT
 if config.pullup:
     BUTTON_EXIT.pull = digitalio.Pull.UP
