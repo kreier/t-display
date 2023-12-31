@@ -16,7 +16,13 @@ Here are the individual boards:
 
 ![T-PicoC3](pinmap_T-PicoC3.jpg)
 
-March 2023
+## T8 ESP32-S2 ST7789
+
+![T8 ST7789](pinmap_T8-ST7789.jpg)
+
+
+
+__March 2023__
 
 # Circuitpython on T-Display rp2040 and T-PicoC3
 
