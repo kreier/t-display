@@ -4,6 +4,29 @@ It is supported by Circuitpython since 2023. Get the latest image here: [https:/
 
 It includes an online installer!
 
+## MADCTL
+
+This value from the init sequence to the ST7789V display driver for the 240x135 display changes direction of refresh and some color adjustments. Different boards have these values implemented differently. Here an overview:
+
+| board                                                                                                                                           | MADCTL | _MADCTL    | rotation | column start | row start | width | height |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|--------|------------|----------|--------------|-----------|-------|--------|
+| [T-Display rp2040](https://github.com/adafruit/circuitpython/blob/main/ports/raspberrypi/boards/lilygo_t_display_rp2040/board.c)                | 0x08   | 0b00001000 |       90 |           53 |        40 |   240 |    135 |
+| [T-Display ESP32 16M](https://github.com/adafruit/circuitpython/blob/main/ports/espressif/boards/lilygo_ttgo_tdisplay_esp32_16m/board.c)        | 0x08   | 0b00001000 |      270 |           53 |        40 |   240 |    135 |
+| [Feather ESP32-S2 with TFT](https://github.com/adafruit/circuitpython/blob/main/ports/espressif/boards/adafruit_feather_esp32s2_tft/board.c)    | 0x68   | 0b01101000 |        0 |           40 |        53 |   240 |    135 |
+| [Feather ESP32-S2 reverse TFT](https://github.com/adafruit/circuitpython/tree/main/ports/espressif/boards/adafruit_feather_esp32s2_reverse_tft) | 0x68   | 0b01101000 |        0 |           40 |        53 |   240 |    135 |
+| [TTGO T8 ESP32-S2 ST7789](https://github.com/adafruit/circuitpython/tree/main/ports/espressif/boards/lilygo_ttgo_t8_s2_st7789)                  | 0x08   | 0b00001000 |       90 |           52 |        40 |   240 |    135 |
+| [Lilygo T-Embed ESP32-S3](https://github.com/adafruit/circuitpython/blob/main/ports/espressif/boards/lilygo_tembed_esp32s3/board.c)             | 0xC8   | 0b11001000 |       90 |           35 |         0 |   320 |    170 |
+| [MEMENTO](https://github.com/adafruit/circuitpython/blob/main/ports/espressif/boards/adafruit_esp32s3_camera/board.c)                           | 0xA0   | 0b10100000 |        0 |           80 |         0 |   240 |    240 |
+| [CLUE NRF52840 Express](https://github.com/adafruit/circuitpython/blob/main/ports/nrf/boards/clue_nrf52840_express/board.c)                     | 0xA0   | 0b10100000 |        0 |           80 |         0 |   240 |    240 |
+| [Lilygo T-Deck](https://github.com/adafruit/circuitpython/blob/main/ports/espressif/boards/lilygo_tdeck/board.c)                                | 0x08   | 0b00001000 |      270 |            0 |         0 |   320 |    240 |
+| [M5StickC PLUS (ST7735R)](https://github.com/adafruit/circuitpython/blob/main/ports/espressif/boards/m5stack_stick_c_plus/board.c)              | 0x08   | 0b00001000 |        1 |           40 |        52 |   135 |    240 |
+
+Changelog:
+
+- With pull request https://github.com/adafruit/circuitpython/pull/8772 the rotation for T-Display rp2040 was adjusted to zero and **_MADCTL** to `0x68`.
+- With pull request https://github.com/adafruit/circuitpython/pull/8787 support for the 4M variant of T-Display ESP32 was added
+- With pull request asdfasdf support for the T-PicoC3 was added
+
 # TTGO T-Display rp2040
 
 It took some time to get the needed  USB-PID but we got it eventually and now this board is supported as well. Check out the current builds:
