@@ -1,0 +1,34 @@
+From https://www.esp32.com/viewtopic.php?t=13356
+ESP32 240mhz, spiram @ 80mhz
+
+ in MBit/s  8bit   16bit    32bit
+RAM           22      45       89
+PSRAM         12      17       21
+
+
+But with 32bit CPU at 240 MHz this should be 240x32 == 7680 MBit.
+
+Octal PSRAM https://www.issi.com/ww/pdf/Octal-Memory.pdf
+
+400 MBit/s
+
+
+SPI PSRAM 
+
+For the reset of the above configurations:
+
+Flash and PSRAM share the same internal clock.
+
+Quad Flash only supports STR mode. Octal Flash may support either/both STR/DTR modes under OPI mode, depending on the flash model and the vendor.
+
+Quad PSRAM only supports STR mode, while Octal PSRAM only supports DTR mode.
+
+
+Modes
+STR mode - Single Transfer rate
+DTR mode - Double Transfer rate
+QPI mode - quad SPI having 4 data lines instead of one
+QSPI, known as queued-SPI 
+
+SPI   - Serial Peripheral Interface
+PSRAM - pseudostatic (random-access) memory
