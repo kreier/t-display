@@ -1,4 +1,4 @@
-# Menu selector v0.4 for boards with display and button(s) - 2023/12/31
+# Menu selector v0.5 for boards with display and button(s) - 2024/02/04
 # https://github.com/kreier/t-display/tree/main/circuitpython9
 
 import time, board, digitalio, os, terminalio, config
@@ -10,13 +10,11 @@ LED.direction = digitalio.Direction.OUTPUT
 LED.value = True
 BUTTON_NEXT = digitalio.DigitalInOut(config.pin_button_next)
 BUTTON_NEXT.direction = digitalio.Direction.INPUT
-if config.has_button_ok:
-    BUTTON_OK = digitalio.DigitalInOut(config.pin_button_ok)
-    BUTTON_OK.direction = digitalio.Direction.INPUT
-    if config.pullup:
-        BUTTON_OK.pull   = digitalio.Pull.UP
+BUTTON_OK = digitalio.DigitalInOut(config.pin_button_ok)
+BUTTON_OK.direction = digitalio.Direction.INPUT
 if config.pullup:
     BUTTON_NEXT.pull = digitalio.Pull.UP
+    BUTTON_OK.pull   = digitalio.Pull.UP
 
 font_file = "fonts/LeagueSpartan-Bold-16.pcf"
 display = config.disp
@@ -76,22 +74,6 @@ while True:
         LED.value = True
         menu_item[selected_item].color=0xFFFFFF
         menu_item[selected_item].background_color=0x000000
-        button_down = time.monotonic()
-        while not BUTTON_NEXT.value:
-            pass
-        LED.value = False
-        if button_down + 0.5 < time.monotonic(): # long press of 500 ms
-            program = "menu/" + programs[selected_program - 1]
-            print("Selected: ", program)
-            display.root_group = None
-            if config.has_button_ok:
-                while not BUTTON_OK.value:
-                    pass
-                BUTTON_OK.deinit()
-            BUTTON_NEXT.deinit()
-            LED.deinit()
-            exec(open(program).read())
-            break
         selected_program += 1
         if selected_program > len(programs):
             selected_program = 0
@@ -102,18 +84,20 @@ while True:
             fill_menu(selected_program)
         menu_item[selected_item].color=0x000000
         menu_item[selected_item].background_color=0xFFFFFF
-    if config.has_button_ok:
-        if not BUTTON_OK.value:
-            program = "menu/" + programs[selected_program - 1]
-            print("Selected: ", program)
-            display.root_group = None
-            while not BUTTON_OK.value:
-                pass
-            BUTTON_NEXT.deinit()
-            BUTTON_OK.deinit()
-            LED.deinit()
-            exec(open(program).read())
-            break
+        while not BUTTON_NEXT.value:
+            pass
+        LED.value = False
+    if not BUTTON_OK.value:
+        program = "menu/" + programs[selected_program - 1]
+        print("Selected: ", program)
+        display.root_group = None
+        while not BUTTON_OK.value:
+            pass
+        BUTTON_NEXT.deinit()
+        BUTTON_OK.deinit()
+        LED.deinit()
+        exec(open(program).read())
+        break
     if timer + 1 < time.monotonic():
         LED.value = not LED.value
         timer = time.monotonic()
