@@ -19,8 +19,9 @@ import busio
 # import busio
 # i2c = busio.I2C(board.SCL1, board.SDA1)  # QT Py RP2040 STEMMA connector
 # i2c = busio.I2C(board.GP1, board.GP0)    # Pi Pico RP2040
-#i2c = busio.I2C(board.GP17, board.GP16)    # Pi Pico RP2040
-i2c = busio.I2C(board.GP1, board.GP0)    # Pi Pico RP2040
+# i2c = busio.I2C(board.GP17, board.GP16)  # Pi Pico RP2040
+# i2c = busio.I2C(board.GP1, board.GP0)    # Pi Pico RP2040
+i2c = busio.I2C(board.STEMMA_SCL, board.STEMMA_SDA)    # T-Display S3
 
 
 print("i2c detection range 0x00-0x7F")
@@ -46,3 +47,12 @@ for row in range(0, 127, 16):
         else:
             print(" -", end="")
     print(" ")
+
+import digitalio, displayio
+
+board.DISPLAY.root_group = displayio.CIRCUITPYTHON_TERMINAL
+
+BUTTON_EXIT = digitalio.DigitalInOut(board.BUTTON0)
+BUTTON_EXIT.direction = digitalio.Direction.INPUT
+while BUTTON_EXIT.value:
+    pass

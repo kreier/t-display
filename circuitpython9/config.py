@@ -1,5 +1,5 @@
 # configuration for different boards and setups
-# 2024/02/03
+# 2024/02/04
 # output: define LED
 # input:  define one/two/three buttons BUTTON_NEXT, BUTTON_OK, BUTTON_BACK and BUTTON_EXIT
 
@@ -17,9 +17,9 @@ if board.board_id == 'lilygo_t_display_rp2040' or board.board_id == 'lilygo_t_pi
 
 if board.board_id == 'lilygo_tdisplay_s3':
     pin_led         = board.IO1                      # it actually has no LED
-    pin_button_next = board.IO0
-    pin_button_ok   = board.BUTTON
-    pin_button_exit = board.BUTTON
+    pin_button_next = board.BUTTON0
+    pin_button_ok   = board.BUTTON1
+    pin_button_exit = board.BUTTON1
     disp            = board.DISPLAY
 
 if board.board_id == 'lilygo_ttgo_tdisplay_esp32_4m' or board.board_id == 'lilygo_ttgo_tdisplay_esp32_16m':
