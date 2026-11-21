@@ -51,6 +51,12 @@ const uint8_t NUM_RELAYS = sizeof(relays) / sizeof(relays[0]);
 #define BTN_CYCLE_PIN       35    // Upper/Right button: cycle through relays
 #define BTN_TOGGLE_PIN      0     // Lower/Left button: toggle selected relay
 
+// Capacitive Touch Sensor Pins (Just connect a free wire to each!)
+#define ENABLE_TOUCH        true  // Set to true to enable touch inputs on pins 32 & 33
+#define TOUCH_CYCLE_PIN     32    // GPIO 32 (Touch 9): Touch wire to cycle selection
+#define TOUCH_TOGGLE_PIN    33    // GPIO 33 (Touch 8): Touch wire to toggle selected relay
+#define TOUCH_THRESHOLD     35    // Typical untouched: 65-95. Touched: 10-25.
+
 // TTGO T-Display Backlight Control Pin
 #define TFT_BL_PIN          4
 
@@ -128,6 +134,42 @@ struct DebouncedButton {
 
 DebouncedButton btnCycle;
 DebouncedButton btnToggle;
+
+// Capacitive Touch Handler
+struct DebouncedTouch {
+  uint8_t pin;
+  uint16_t threshold;
+  bool isTouched;
+  unsigned long lastActionTime;
+
+  void init(uint8_t p, uint16_t thresh) {
+    pin = p;
+    threshold = thresh;
+    isTouched = false;
+    lastActionTime = 0;
+  }
+
+  bool wasTouched() {
+    uint16_t val = touchRead(pin);
+    bool pressed = false;
+    // When touched by human hand, the capacitance increases and touchRead() value drops
+    if (val < threshold) {
+      if (!isTouched && (millis() - lastActionTime > 250)) {
+        isTouched = true;
+        lastActionTime = millis();
+        pressed = true;
+      }
+    } else if (val > (threshold + 10)) {
+      if (isTouched && (millis() - lastActionTime > 100)) {
+        isTouched = false;
+      }
+    }
+    return pressed;
+  }
+};
+
+DebouncedTouch touchCycle;
+DebouncedTouch touchToggle;
 
 // ======================================================================================
 // HTML, CSS & JAVASCRIPT WEB INTERFACE (Stored in Flash PROGMEM)
@@ -500,9 +542,15 @@ void setup() {
     Serial.printf("Configured %s on GPIO %d [OFF]\n", relays[i].name, relays[i].pin);
   }
 
-  // 2. Initialize Hardware Buttons
+  // 2. Initialize Hardware Buttons & Touch Inputs
   btnCycle.init(BTN_CYCLE_PIN);
   btnToggle.init(BTN_TOGGLE_PIN);
+#if ENABLE_TOUCH
+  touchCycle.init(TOUCH_CYCLE_PIN, TOUCH_THRESHOLD);
+  touchToggle.init(TOUCH_TOGGLE_PIN, TOUCH_THRESHOLD);
+  Serial.printf("Touch enabled: Wire on GPIO %d (Cycle), Wire on GPIO %d (Toggle)\n",
+                TOUCH_CYCLE_PIN, TOUCH_TOGGLE_PIN);
+#endif
 
   // 3. Initialize Display & Backlight
   if (TFT_BL_PIN > 0) {
@@ -563,8 +611,15 @@ void loop() {
   dnsServer.processNextRequest();
   server.handleClient();
 
-  // 2. Handle Upper/Right Button (Cycle Selection)
-  if (btnCycle.wasPressed()) {
+  // 2. Handle Cycle Input (Physical Button 1 or Wire Touch on Pin 32)
+  bool cycleTriggered = btnCycle.wasPressed();
+#if ENABLE_TOUCH
+  if (!cycleTriggered && touchCycle.wasTouched()) {
+    cycleTriggered = true;
+    Serial.println("[Touch 32] Cycle trigger");
+  }
+#endif
+  if (cycleTriggered) {
     int prevSelected = selectedRelay;
     selectedRelay = (selectedRelay + 1) % NUM_RELAYS;
     Serial.printf("Selected relay changed to: %d (%s)\n", selectedRelay, relays[selectedRelay].name);
@@ -573,8 +628,15 @@ void loop() {
     drawRelayRow(selectedRelay);
   }
 
-  // 3. Handle Lower/Left Button (Toggle Selected Relay)
-  if (btnToggle.wasPressed()) {
+  // 3. Handle Toggle Input (Physical Button 2 or Wire Touch on Pin 33)
+  bool toggleTriggered = btnToggle.wasPressed();
+#if ENABLE_TOUCH
+  if (!toggleTriggered && touchToggle.wasTouched()) {
+    toggleTriggered = true;
+    Serial.println("[Touch 33] Toggle trigger");
+  }
+#endif
+  if (toggleTriggered) {
     relays[selectedRelay].state = !relays[selectedRelay].state;
     applyRelayState(selectedRelay);
     Serial.printf("Toggled %s (GPIO %d) -> %s\n",

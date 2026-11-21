@@ -9,9 +9,9 @@ A dedicated relay controller firmware for the **LilyGO TTGO T-Display** (ESP32 w
 - **5 Relay Outputs (Adjustable)**: Controls relays connected to GPIO pins **17, 2, 15, 13, and 12**.
 - **Soft-AP & Web Dashboard**: Creates a standalone Wi-Fi Access Point (`Relais-Control-AP`). Connect with any phone or computer to access a responsive dark-mode touch control panel at `http://192.168.4.1`.
 - **Live AJAX State Sync**: Physical button presses and Web UI toggles sync instantly without manual page reloads.
-- **Physical Button Controls**:
-  - **Upper / Right Button (GPIO 35)**: Cycle through relays (highlights active selection with a cyan cursor).
-  - **Lower / Left Button (GPIO 0)**: Toggle the currently highlighted relay ON or OFF.
+- **Physical Button & Capacitive Touch Controls**:
+  - **Upper / Right Button (GPIO 35)** or **Wire Touch (GPIO 32)**: Cycle through relays.
+  - **Lower / Left Button (GPIO 0)** or **Wire Touch (GPIO 33)**: Toggle the currently highlighted relay ON or OFF.
 - **240x135 Color Display UI**: High-contrast, flicker-free dashboard showing each relay's name, GPIO pin, active cursor, ON/OFF status badge, Soft-AP IP, and connected Wi-Fi client count.
 - **Captive Portal**: Automatically prompts or redirects connected mobile devices to the control dashboard.
 - **Configurable Relay Logic**: Easily switch between **Active-LOW** (common optocoupler relay boards) and **Active-HIGH**.
@@ -27,6 +27,8 @@ A dedicated relay controller firmware for the **LilyGO TTGO T-Display** (ESP32 w
 | **Relais 3** | **15** | General I/O on expansion header |
 | **Relais 4** | **13** | General I/O on expansion header |
 | **Relais 5** | **12** | General I/O on expansion header |
+| **Touch Cycle Input** | **32** | Capacitive Touch 9 (attach wire to touch with hand) |
+| **Touch Toggle Input** | **33** | Capacitive Touch 8 (attach wire to touch with hand) |
 | **Upper / Right Button** | **35** | Built-in push button (cycles selection) |
 | **Lower / Left Button** | **0** | Built-in push button (toggles selected relay) |
 | **Display Backlight (BL)** | **4** | Automatically driven HIGH |
@@ -62,9 +64,16 @@ A dedicated relay controller firmware for the **LilyGO TTGO T-Display** (ESP32 w
    - Click **ALL ON** or **ALL OFF** for bulk control.
    - View live state updates matching the onboard LCD.
 
-### 3. On-Device Button Control
-- Press the **Upper / Right button** (GPIO 35) to move the selection cursor `>` to the next relay.
-- Press the **Lower / Left button** (GPIO 0) to toggle the selected relay ON / OFF.
+### 3. On-Device Button & Touch Control
+- **Cycle to next relay**: Press the **Upper / Right button** (GPIO 35) **OR** touch the wire connected to **GPIO 32**.
+- **Toggle selected relay**: Press the **Lower / Left button** (GPIO 0) **OR** touch the wire connected to **GPIO 33**.
+
+#### How Capacitive Touch Works on ESP32
+Pins 32 and 33 connect to the ESP32 internal capacitive touch sensor peripheral (`TOUCH9` and `TOUCH8`).
+- You can simply plug a jumper wire (solid or stranded) directly into pin 32 or 33.
+- When untouched, the reading is typically between `60` and `95`.
+- When your finger or hand touches the bare wire end (or even a metal foil pad / coin attached to it), your body's capacitance causes the reading to plummet to `10`–`25`.
+- The firmware detects this drop below `TOUCH_THRESHOLD` (default: 35) with software debouncing.
 
 ---
 
